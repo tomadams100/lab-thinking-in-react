@@ -1,24 +1,28 @@
 import React from 'react';
+import { useState } from "react";
 import logo from './logo.svg';
 import './App.css';
+import Jsondata from './data.json'
+import SearchBar from './components/SearchBar';
+import ProductTable from './components/ProductTable';
+//import ProductRow from './components/ProductRow';
 
 function App() {
+  const [items, setItems] = useState(Jsondata.data)
+  const [filteredItems, setFilteredItems] = useState(Jsondata.data)
+
+  function filterItems(letter) {
+    if(letter==="") setFilteredItems(items.filter(item => item))
+    else {
+      setFilteredItems(items.filter(item => item.name.toLowerCase().includes(letter.toLowerCase())))
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Ironstore</h1>
+      <SearchBar filterItems={filterItems}/>
+      <ProductTable data={filteredItems}/>
     </div>
   );
 }
