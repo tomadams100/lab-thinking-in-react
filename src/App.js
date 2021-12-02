@@ -11,17 +11,20 @@ function App() {
   const [items, setItems] = useState(Jsondata.data)
   const [filteredItems, setFilteredItems] = useState(Jsondata.data)
 
-  function filterItems(letter) {
+  function filterItems(letter,checked) {
+    console.log("letter: ", letter)
+    console.log("checked: ", checked)
     if(letter==="") setFilteredItems(items.filter(item => item))
     else {
-      setFilteredItems(items.filter(item => item.name.toLowerCase().includes(letter.toLowerCase())))
+      if (checked) setFilteredItems(items.filter(item => (item.name.toLowerCase().includes(letter.toLowerCase()) && item.stocked === checked)))
+      else setFilteredItems(items.filter(item => item.name.toLowerCase().includes(letter.toLowerCase())))
     }
   }
 
   return (
     <div className="App">
       <h1>Ironstore</h1>
-      <SearchBar filterItems={filterItems}/>
+      <SearchBar items={items} filterItems={filterItems}/>
       <ProductTable data={filteredItems}/>
     </div>
   );
